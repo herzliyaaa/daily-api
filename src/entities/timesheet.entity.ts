@@ -13,21 +13,11 @@ import {
     id: number;
   
     @Column()
-    name: string;
-  
-    @Column({
-      unique: true,
-    })
-    email: string;
-  
-    @Column({
-      unique: true,
-    })
-    username: string;
+    time_in: string;
   
     @Column()
-    password: string;
-  
+    time_out: string;
+
     @CreateDateColumn()
     created_at: Date;
   

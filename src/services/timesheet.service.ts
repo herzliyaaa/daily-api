@@ -1,47 +1,39 @@
-import { google } from "googleapis";
 import { DataSource } from "typeorm";
-
-export class GoogleSheetService {
-  private readonly sheets: any;
-
-  constructor(authClient: any) {
-    this.sheets = google.sheets({ version: "v4", auth: authClient });
-  }
-
-  async fetchData(spreadsheetId: string, range: string) {
-    try {
-      const response = await this.sheets.spreadsheets.values.get({
-        spreadsheetId,
-        range,
-      });
-      return response.data.values;
-    } catch (error) {
-      throw new Error(`Failed to fetch data from Google Sheets: ${error}`);
-    }
-  }
-}
+import { GoogleSheetService } from "../utils/sheet.util";
+import connectDB from "../data-source";
 
 export class TimesheetService {
   private readonly connection: DataSource;
+  private readonly googleSheetsService: GoogleSheetService;
 
-  constructor(connection: DataSource) {
-    this.connection = connection;
+  constructor() {
+    this.connection = connectDB;
+    this.googleSheetsService = new GoogleSheetService(
+      process.env.GOOGLE_AUTH_KEY
+    );
   }
 
-  async saveData(data: any[]) {
+  async saveData() {
     try {
-      const repository = this.connection.getRepository("timesheet");
-      console.log(
-        "🚀 ~ GoogleSheetService ~ saveData ~ repository:",
-        repository
+      const sheetDetails = {
+        range: "Sheet1!A1:B5",
+        spreadsheetId: process.env.SPREADSHEET_ID,
+      };
+
+      const fetchSheetData = await this.googleSheetsService.fetchData(
+        sheetDetails.spreadsheetId,
+        sheetDetails.range
       );
-      // Assuming 'SomeEntity' is your entity name
-      // Create entity instances and save to the database
-      const entities = data.map((row) =>
+
+      const repository = this.connection.getRepository("timesheet");
+
+      const entities = fetchSheetData.map((row) =>
         repository.create({ property1: row[0], property2: row[1] })
       );
+
       await repository.save(entities);
     } catch (error) {
+      console.log(error);
       throw new Error(`Failed to save data to the database: ${error}`);
     }
   }
