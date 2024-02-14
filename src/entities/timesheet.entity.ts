@@ -13,15 +13,15 @@ import {
     id: number;
   
     @Column()
-    time_in: string;
+    timeIn: string;
   
     @Column()
-    time_out: string;
+    timeOut: string;
 
     @CreateDateColumn()
-    created_at: Date;
+    createdAt: Date;
   
     @UpdateDateColumn()
-    updated_at: Date;
+    updatedAt: Date;
   }
   

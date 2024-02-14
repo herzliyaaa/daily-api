@@ -10,27 +10,14 @@ import {
 
 import { Expense } from "./expense.entity";
 
-@Entity()
-export class User extends BaseEntity {
+@Entity({ name: 'expenseCategory' })
+export class ExpenseCategory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
-
-  @Column({
-    unique: true,
-  })
-  email: string;
-
-  @Column({
-    unique: true,
-  })
-  username: string;
-
-  @Column()
-  password: string;
-
+  category: string;
+  
   @CreateDateColumn()
   createdAt: Date;
 
@@ -39,4 +26,6 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Expense, expense => expense.id)
   expense: Expense[];
+  
+
 }

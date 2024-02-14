@@ -14,7 +14,7 @@ const connectDB = new DataSource({
   database: DB_NAME,
   entities: ["src/entities/*.ts"],
   synchronize: true,
-  logging: false,
+  logging: true,
 });
 
 connectDB
