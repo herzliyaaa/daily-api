@@ -1,5 +1,7 @@
 import { DataSource } from "typeorm";
 import connectDB from "../data-source";
+import { User } from "../interfaces/User";
+
 export class UserService {
   private readonly connection: DataSource;
 
@@ -18,7 +20,7 @@ export class UserService {
     }
   }
 
-  async getUserById(userId) {
+  async getUserById(userId: number) {
     try {
       const repository = this.connection.getRepository("user");
 
@@ -31,7 +33,7 @@ export class UserService {
     }
   }
 
-  async addUser(user) {
+  async addUser(user: User) {
     try {
       const { name, email, username, password } = user;
       const repository = this.connection.getRepository("user");

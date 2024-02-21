@@ -6,10 +6,9 @@ export class TimesheetController {
 
   constructor(timesheetService: TimesheetService) {
     this.timesheetService = timesheetService;
-    this.saveTimesheetData = this.saveTimesheetData.bind(this);
   }
 
-  async saveTimesheetData(req: Request, res: Response) {
+   saveTimesheetData = async (req: Request, res: Response) => {
     try {
       await this.timesheetService.saveData();
 

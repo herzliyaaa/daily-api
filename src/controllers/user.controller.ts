@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
 
+
 export class UserController {
   private readonly userService: UserService;
 
@@ -12,7 +13,6 @@ export class UserController {
     try {
       const users = await this.userService.getAllUsers();
 
-
       res.status(200).send(users);
     } catch (error) {
       res.status(400).send(`Error saving timesheet data: ${error.message}`);
@@ -21,7 +21,7 @@ export class UserController {
 
   getUserById = async (req: Request, res: Response) => {
     try {
-      const user = await this.userService.getUserById(req.params.id);
+      const user = await this.userService.getUserById(Number(req.params.id));
       res.status(200).send(user);
     } catch (error) {
       res.status(400).send(error.message);
