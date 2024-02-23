@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Express, Response } from "express";
+import { Express, Response, Request } from "express";
 import * as cors from "cors";
 import * as express from "express";
 import * as morgan from "morgan";
@@ -9,7 +9,7 @@ import routes from "./routers";
 const app: Express = express();
 const port: string = process.env.PORT || "4000";
 
-app.get("/", (res: Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("NODEJS, EXPRESS, TYPESCRIPT + TYPEORM API");
 });
 
